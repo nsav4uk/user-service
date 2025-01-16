@@ -1,7 +1,0 @@
-services:
-    user.nginx:
-        ports:
-            - '8080:80'
-    user.db:
-        ports:
-            - '5432:5432'
