@@ -55,8 +55,8 @@ jobs:
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       run: |
-        bin/console d:d:c
-        bin/console d:m:m
+        bin/console d:d:c -e test
+        bin/console d:m:m -e test
         vendor/bin/phpunit
       env:
         # The hostname used to communicate with the PostgreSQL service container
@@ -64,4 +64,3 @@ jobs:
         # The default PostgreSQL port
         POSTGRES_PORT: 5432
         POSTGRES_PASSWORD: postgres
-        DB_NAME: marketplace_test
