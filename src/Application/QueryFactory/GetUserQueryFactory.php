@@ -11,7 +11,7 @@ readonly class GetUserQueryFactory
     public function create(array $data): GetUserQuery
     {
         return new GetUserQuery(
-            $data['email'],
+            $data['email'] ?? null,
         );
     }
 }

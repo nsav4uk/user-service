@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace User\Tests\Domain\Entity;
+namespace User\Tests\Domain\Model\User;
 
 use PHPUnit\Framework\TestCase;
-use User\Domain\Entity\User;
+use User\Domain\Model\User\User;
 
 class UserTest extends TestCase
 {

@@ -17,12 +17,13 @@ framework:
 
         buses:
             command.bus:
-#                middleware:
-#                    - validation
-#                    - doctrine_transaction
+                middleware:
+                    - doctrine_transaction
             query.bus:
-#                middleware:
-#                    - validation
+#            event.bus:
+#                default_middleware:
+#                    enabled: true
+#                    allow_no_handlers: true
 
 when@test:
     framework:

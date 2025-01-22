@@ -3,3 +3,4 @@ controllers:
         path: ../src/Infrastructure/Controller/
         namespace: User\Infrastructure\Controller
     type: attribute
+    prefix: '/api'

@@ -7,11 +7,11 @@ namespace User\Application\Command;
 readonly class CreateUserCommand
 {
     public function __construct(
-        private string $email,
-        private string $password,
+        private ?string $email,
+        private ?string $password,
     ) {}
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }

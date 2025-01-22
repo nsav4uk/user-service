@@ -7,7 +7,7 @@ namespace User\Application\Query;
 readonly class GetUserQuery
 {
     public function __construct(
-        private string $email
+        private ?string $email
     ) {
     }
 

@@ -7,7 +7,7 @@ namespace User\Tests\Infrastructure\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use User\Domain\Entity\User;
+use User\Domain\Model\User\User;
 
 class UserControllerTest extends WebTestCase
 {
@@ -24,24 +24,51 @@ class UserControllerTest extends WebTestCase
     public function testIndex(): void
     {
         $this->createUser();
-        $this->client->jsonRequest('GET', '/' . self::USER_EMAIL);
+        $this->client->jsonRequest('GET', '/api/user/' . self::USER_EMAIL);
         self::assertResponseIsSuccessful();
     }
 
     public function testIndexNotFound(): void
     {
-        $this->client->jsonRequest('GET', '/test1@test.com');
+        $this->client->jsonRequest('GET', '/api/user/test1@test.com');
         self::assertResponseStatusCodeSame(404);
+    }
+
+    public function testGetUserWithNotValidEmail(): void
+    {
+        $this->client->jsonRequest('GET', '/api/user/test1');
+        self::assertResponseStatusCodeSame(400);
+    }
+
+    public function testCreateUserEmptyForm(): void
+    {
+        $this->client->jsonRequest('POST', '/api/user');
+        self::assertResponseStatusCodeSame(400);
     }
 
     public function testCreate(): void
     {
-        $this->client->jsonRequest('POST', '/', [
+        $this->client->jsonRequest('POST', '/api/user', [
             'email' => 'test1@test.com',
             'password' => 'password',
         ]);
         self::assertResponseIsSuccessful();
         self::assertResponseStatusCodeSame(201);
+    }
+
+    public function testCreateWithDuplicate(): void
+    {
+        $this->client->jsonRequest('POST', '/api/user', [
+            'email' => 'test1@test.com',
+            'password' => 'password',
+        ]);
+
+        $this->client->jsonRequest('POST', '/api/user', [
+            'email' => 'test1@test.com',
+            'password' => 'password',
+        ]);
+
+        self::assertResponseStatusCodeSame(400);
     }
 
     private function createUser(): void

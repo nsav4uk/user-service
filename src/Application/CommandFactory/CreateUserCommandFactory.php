@@ -11,8 +11,8 @@ readonly class CreateUserCommandFactory
     public function create(array $data): CreateUserCommand
     {
         return new CreateUserCommand(
-            $data['email'],
-            $data['password'],
+            $data['email'] ?? null,
+            $data['password'] ?? null,
         );
     }
 }

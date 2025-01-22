@@ -19,11 +19,10 @@ doctrine:
         auto_mapping: true
         mappings:
             User:
-                type: attribute
+                type: xml
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Domain/Entity'
-                prefix: 'User\Domain\Entity'
-                alias: User
+                dir: '%kernel.project_dir%/src/Infrastructure/Persistence/Doctrine/Model'
+                prefix: 'User\Domain\Model\User'
         controller_resolver:
             auto_mapping: false
 
