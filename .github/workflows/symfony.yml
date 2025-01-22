@@ -56,7 +56,7 @@ jobs:
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       run: |
         bin/console d:d:c
-        bun/console d:m:m
+        bin/console d:m:m
         vendor/bin/phpunit
       env:
         # The hostname used to communicate with the PostgreSQL service container
