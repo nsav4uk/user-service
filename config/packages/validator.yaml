@@ -1,0 +1,10 @@
+framework:
+    validation:
+        mapping:
+            paths:
+                - "%kernel.project_dir%/src/Infrastructure/validation"
+
+when@test:
+    framework:
+        validation:
+            not_compromised_password: false

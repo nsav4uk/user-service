@@ -1,0 +1,14 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="User\Domain\Model\User\User" table="users" repository-class="User\Infrastructure\Persistence\Doctrine\Repository\UserRepository">
+        <id name="id" type="integer">
+            <generator strategy="SEQUENCE"/>
+            <sequence-generator sequence-name="users_id_seq" />
+        </id>
+        <field name="email" column-definition="CHAR(32) NOT NULL" unique="true" />
+        <field name="password" />
+        <field name="roles" type="json" />
+    </entity>
+</doctrine-mapping>
