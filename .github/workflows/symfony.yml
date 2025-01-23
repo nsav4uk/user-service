@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Symfony
+name: User service
 
 on:
   push:
@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 jobs:
-  symfony-tests:
+  user-service-tests:
     runs-on: ubuntu-latest
     services:
       # Label used to access the service container
