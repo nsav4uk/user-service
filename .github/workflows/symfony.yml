@@ -54,10 +54,7 @@ jobs:
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      run: |
-        bin/console d:d:c -e test
-        bin/console d:m:m -e test
-        vendor/bin/phpunit
+      run: vendor/bin/phpunit
       env:
         # The hostname used to communicate with the PostgreSQL service container
         POSTGRES_HOST: localhost

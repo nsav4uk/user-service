@@ -11,3 +11,9 @@ if (method_exists(Dotenv::class, 'bootEnv')) {
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
 }
+
+passthru(sprintf(
+    'APP_ENV=%s php "%s/../bin/console" d:m:m',
+  $_ENV['APP_ENV'],
+    __DIR__
+));
