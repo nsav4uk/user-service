@@ -7,7 +7,7 @@
             <generator strategy="SEQUENCE"/>
             <sequence-generator sequence-name="users_id_seq" />
         </id>
-        <field name="email" column-definition="CHAR(32) NOT NULL" unique="true" />
+        <field name="email" length="100" unique="true" />
         <field name="password" />
         <field name="roles" type="json" />
     </entity>
