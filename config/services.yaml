@@ -16,7 +16,8 @@ services:
     User\:
         resource: '../src/'
         exclude:
-            - '../src/Domain/Entity/'
+            - '../src/Infrastructure/Persistence/Doctrine/Migrations/'
+            - '../src/Domain/Model/'
             - '../src/Kernel.php'
 
     # add more service definitions when explicit configuration is needed
@@ -34,3 +35,8 @@ services:
         User\Application\Handler\QueryHandlerInterface:
             tags:
                 - { name: messenger.message_handler, bus: query.bus }
+
+    monolog.formatter.gelf_formatter:
+        class: Monolog\Formatter\GelfMessageFormatter
+        arguments:
+            - "user-service"

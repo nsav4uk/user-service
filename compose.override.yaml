@@ -1,0 +1,71 @@
+services:
+    user.nginx:
+        ports:
+            - "8080:80"
+    ###> doctrine/doctrine-bundle ###
+    user.db:
+        ports:
+            - "5432:5432"
+    ###< doctrine/doctrine-bundle ###
+    user.datanode:
+        image: graylog/graylog-datanode:6.1
+        hostname: "datanode"
+        environment:
+            GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
+            GRAYLOG_DATANODE_PASSWORD_SECRET: "somepasswordpepper"
+            GRAYLOG_DATANODE_ROOT_PASSWORD_SHA2: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+            GRAYLOG_DATANODE_MONGODB_URI: "mongodb://user.mongodb:27017/graylog"
+        ulimits:
+            memlock:
+                hard: -1
+                soft: -1
+            nofile:
+                soft: 65536
+                hard: 65536
+        ports:
+            - "8999:8999/tcp"   # DataNode API
+            - "9200:9200/tcp"
+            - "9300:9300/tcp"
+        volumes:
+            - graylog-datanode:/var/lib/graylog-datanode
+        restart: on-failure
+        depends_on:
+            - user.mongodb
+    user.mongodb:
+        image: mongo:6.0.18
+        restart: on-failure
+        volumes:
+            - mongodb_data:/data/db
+            - mongodb_config:/data/configdb
+
+    user.graylog:
+        image: graylog/graylog:6.1
+        hostname: graylog.local
+        depends_on:
+            user.mongodb:
+                condition: "service_started"
+            user.datanode:
+                condition: "service_started"
+        entrypoint: "/usr/bin/tini -- /docker-entrypoint.sh"
+        environment:
+            GRAYLOG_NODE_ID_FILE: "/usr/share/graylog/data/config/node-id"
+            GRAYLOG_PASSWORD_SECRET: somepasswordpepper
+            # to generate a password hash, type: echo -n admin | shasum -a 256
+            GRAYLOG_ROOT_PASSWORD_SHA2: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+            GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9001"
+            GRAYLOG_HTTP_EXTERNAL_URI: "http://localhost:9001/"
+            GRAYLOG_MONGODB_URI: "mongodb://user.mongodb:27017/graylog"
+        ports:
+            - "5044:5044/tcp"   # Beats
+            - "5140:5140/udp"   # Syslog
+            - "5140:5140/tcp"   # Syslog
+            - "9001:9001/tcp"   # Server API
+            - "12201:12201/tcp" # GELF TCP
+            - "12201:12201/udp" # GELF UDP
+            - "13301:13301/tcp" # Forwarder data
+            - "13302:13302/tcp" # Forwarder config
+volumes:
+    mongodb_data:
+    mongodb_config:
+    graylog-datanode:
+    graylog_data:
